@@ -85,11 +85,10 @@ class ZoomService
     {
         $sdkKey = env('ZOOM_SDK_KEY');
         $sdkSecret = env('ZOOM_SDK_SECRET');
-
+    
         $iat = time() - 30; 
         $exp = $iat + 60 * 60 * 2;
-
-
+    
         $payload = [
             'sdkKey' => $sdkKey,
             'mn' => $meetingNumber,
@@ -98,9 +97,8 @@ class ZoomService
             'exp' => $exp,
             'tokenExp' => $exp,
         ];
-
+    
         $signature = JWT::encode($payload, $sdkSecret, 'HS256');
-
-
-        return rtrim(strtr(base64_encode($signature), '+/', '-'), '=');    }
+        return $signature;
+    }
 }
