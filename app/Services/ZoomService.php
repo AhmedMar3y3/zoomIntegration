@@ -102,6 +102,5 @@ class ZoomService
         $signature = JWT::encode($payload, $sdkSecret, 'HS256');
 
 
-        return base64_encode($signature);
-    }
+        return rtrim(strtr(base64_encode($signature), '+/', '-'), '=');    }
 }
