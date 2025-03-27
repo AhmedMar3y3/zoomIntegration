@@ -32,28 +32,46 @@ class ZoomController extends Controller
         }
     }
 
-    public function getMeetingDetails(Request $request, $meetingId)
-    {
-        $meeting = Meeting::findOrFail($meetingId);
-        return response()->json([
-            'meetingNumber' => $meeting->zoom_meeting_id,
-            'password' => $meeting->password,
-        ]);
-    }
-
-    public function getSignature(Request $request, $meetingId)
+    public function getMeetingData(Request $request, $meetingId)
     {
         $meeting = Meeting::findOrFail($meetingId);
         $role = $request->input('role');
-        
+
         if (!in_array($role, [0, 1])) {
-            return response()->json(['error' => 'Invalid role'], 400);
+            return response()->json(['error' => 'Invalid role. Use 0 for participant, 1 for host'], 400);
         }
-        
+
         $signature = $this->zoomService->generateSignature($meeting->zoom_meeting_id, $role);
-        
-        return response()->json(['signature' => $signature]);
+
+        return response()->json([
+            'meetingNumber' => $meeting->zoom_meeting_id,
+            'password' => $meeting->password,
+            'signature' => $signature,
+        ]);
     }
+
+    // public function getMeetingDetails(Request $request, $meetingId)
+    // {
+    //     $meeting = Meeting::findOrFail($meetingId);
+    //     return response()->json([
+    //         'meetingNumber' => $meeting->zoom_meeting_id,
+    //         'password' => $meeting->password,
+    //     ]);
+    // }
+
+    // public function getSignature(Request $request, $meetingId)
+    // {
+    //     $meeting = Meeting::findOrFail($meetingId);
+    //     $role = $request->input('role');
+        
+    //     if (!in_array($role, [0, 1])) {
+    //         return response()->json(['error' => 'Invalid role'], 400);
+    //     }
+        
+    //     $signature = $this->zoomService->generateSignature($meeting->zoom_meeting_id, $role);
+        
+    //     return response()->json(['signature' => $signature]);
+    // }
 
     public function listMeetings(Request $request)
     {

@@ -10,7 +10,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/list-meetings', [ZoomController::class, 'listMeetings']);
     Route::post('/create-meeting', [ZoomController::class, 'createMeeting']);
-    Route::get('/meetings/{meetingId}/details', [ZoomController::class, 'getMeetingDetails']);
-    Route::post('/meetings/{meetingId}/signature', [ZoomController::class, 'getSignature']);
+    Route::post('/meetings/{meetingId}/data', [ZoomController::class, 'getMeetingData']);
+   // Route::get('/meetings/{meetingId}/details', [ZoomController::class, 'getMeetingDetails']);
+  //  Route::post('/meetings/{meetingId}/signature', [ZoomController::class, 'getSignature']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
