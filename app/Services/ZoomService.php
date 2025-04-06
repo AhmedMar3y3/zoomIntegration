@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class ZoomService
 {
@@ -46,7 +45,7 @@ class ZoomService
                 'Authorization' => 'Bearer ' . $this->getAccessToken(),
                 'Content-Type' => 'application/json',
             ])->post('https://api.zoom.us/v2/users/me/meetings', [
-                'topic' => $data['title'], // Changed 'title' to 'topic' for Zoom API
+                'topic' => $data['title'],
                 'type' => 2,
                 'start_time' => Carbon::parse($data['start_time'])->toIso8601String(),
                 'duration' => $data['duration'],
@@ -85,11 +84,12 @@ class ZoomService
     {
         $sdkKey = env('ZOOM_SDK_KEY');
         $sdkSecret = env('ZOOM_SDK_SECRET');
-    
-        $iat = time() - 30; 
+
+        $iat = time() - 30;
         $exp = $iat + 60 * 60 * 2;
-    
+
         $payload = [
+            'sdkSecret' => $sdkSecret,
             'sdkKey' => $sdkKey,
             'mn' => $meetingNumber,
             'role' => $role,
@@ -97,7 +97,7 @@ class ZoomService
             'exp' => $exp,
             'tokenExp' => $exp,
         ];
-    
+
         $signature = JWT::encode($payload, $sdkSecret, 'HS256');
         return $signature;
     }

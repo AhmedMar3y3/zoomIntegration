@@ -20,12 +20,12 @@ class ZoomController extends Controller
     {
         try {
             $meetingData = $this->zoomService->createMeeting($request->validated());
-            
+
             $meeting = Meeting::create([
                 'zoom_meeting_id' => $meetingData['id'],
                 'password' => $meetingData['password'],
             ]);
-            
+
             return response()->json(['meeting_id' => $meeting->id]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -63,13 +63,13 @@ class ZoomController extends Controller
     // {
     //     $meeting = Meeting::findOrFail($meetingId);
     //     $role = $request->input('role');
-        
+
     //     if (!in_array($role, [0, 1])) {
     //         return response()->json(['error' => 'Invalid role'], 400);
     //     }
-        
+
     //     $signature = $this->zoomService->generateSignature($meeting->zoom_meeting_id, $role);
-        
+
     //     return response()->json(['signature' => $signature]);
     // }
 
