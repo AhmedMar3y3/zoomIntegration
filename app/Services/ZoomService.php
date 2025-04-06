@@ -89,7 +89,6 @@ class ZoomService
         $exp = $iat + 60 * 60 * 2;
 
         $payload = [
-            'sdkSecret' => $sdkSecret,
             'sdkKey' => $sdkKey,
             'mn' => $meetingNumber,
             'role' => $role,
