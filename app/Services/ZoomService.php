@@ -5,6 +5,7 @@ namespace App\Services;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ZoomService
 {
@@ -85,7 +86,7 @@ class ZoomService
         $sdkKey = env('ZOOM_SDK_KEY');
         $sdkSecret = env('ZOOM_SDK_SECRET');
 
-        $iat = time() - 30;
+        $iat = time();
         $exp = $iat + 60 * 60 * 2;
 
         $payload = [
@@ -96,6 +97,8 @@ class ZoomService
             'exp' => $exp,
             'tokenExp' => $exp,
         ];
+        Log::info( $sdkKey);
+        Log::info( $sdkSecret);
 
         $signature = JWT::encode($payload, $sdkSecret, 'HS256');
         return $signature;
