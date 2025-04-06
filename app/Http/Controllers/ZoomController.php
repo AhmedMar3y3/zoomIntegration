@@ -45,8 +45,6 @@ class ZoomController extends Controller
 
         return response()->json([
             'meetingNumber' => $meeting->zoom_meeting_id,
-            'join_url' =>$meeting->join_url,
-            'host_url'=> $meeting->host_url,
             'password' => $meeting->password,
             'signature' => $signature,
         ]);
