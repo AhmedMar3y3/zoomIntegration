@@ -16,44 +16,44 @@ class ZoomController extends Controller
         $this->zoomService = $zoomService;
     }
 
-    // public function createMeeting(storeMeeting $request)
-    // {
-    //     try {
-    //         $meetingData = $this->zoomService->createMeeting($request->validated());
-
-    //         $meeting = Meeting::create([
-    //             'zoom_meeting_id' => $meetingData['id'],
-    //             'password' => $meetingData['password'],
-    //         ]);
-
-    //         return response()->json($meetingData);
-    //     } catch (\Throwable $th) {
-    //         return response()->json(['error' => $th->getMessage()], 500);
-    //     }
-    // }
-
     public function createMeeting(storeMeeting $request)
-{
-    try {
-        $meetingData = $this->zoomService->createMeeting($request->validated());
+    {
+        try {
+            $meetingData = $this->zoomService->createMeeting($request->validated());
 
-        $meetingNumber = $meetingData['id'];
-        $encryptedPassword = $meetingData['encrypted_password'];
+            $meeting = Meeting::create([
+                'zoom_meeting_id' => $meetingData['id'],
+                'password' => $meetingData['password'],
+            ]);
 
-        $directJoinUrl = "https://us05web.zoom.us/wc/join/{$meetingNumber}?pwd={$encryptedPassword}";
-        // $meeting = Meeting::create([
-        //                 'zoom_meeting_id' => $meetingData['id'],
-        //                 'password' => $meetingData['password'],
-        //             ]);
-
-        return response()->json([
-            'meeting_id' => $meetingNumber,
-            'direct_join_url' => $directJoinUrl
-        ]);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json($meeting);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
     }
-}
+
+//     public function createMeeting(storeMeeting $request)
+// {
+//     try {
+//         $meetingData = $this->zoomService->createMeeting($request->validated());
+
+//         $meetingNumber = $meetingData['id'];
+//         $encryptedPassword = $meetingData['encrypted_password'];
+
+//         $directJoinUrl = "https://us05web.zoom.us/wc/join/{$meetingNumber}?pwd={$encryptedPassword}";
+//         // $meeting = Meeting::create([
+//         //                 'zoom_meeting_id' => $meetingData['id'],
+//         //                 'password' => $meetingData['password'],
+//         //             ]);
+
+//         return response()->json([
+//             'meeting_id' => $meetingNumber,
+//             'direct_join_url' => $directJoinUrl
+//         ]);
+//     } catch (\Exception $e) {
+//         return response()->json(['error' => $e->getMessage()], 500);
+//     }
+// }
 
     public function getMeetingData(Request $request, $meetingId)
     {
