@@ -83,10 +83,10 @@ class ZoomService
 
     public function generateSignature(string $meetingNumber, int $role): string
     {
-        $sdkKey = env('ZOOM_SDK_KEY');
-        $sdkSecret = env('ZOOM_SDK_SECRET');
+        $sdkKey = env('ZOOM_CLIENT_ID');
+        $sdkSecret = env('ZOOM_CLIENT_SECRET');
 
-        $iat = Carbon::now('UTC')->subHours(2)->timestamp;
+        $iat = time() - 30;
         $exp = $iat + 60 * 60 * 2;
 
         $payload = [
@@ -94,11 +94,9 @@ class ZoomService
             'mn' => $meetingNumber,
             'role' => $role,
             'iat' => $iat,
-            'exp' => $exp + 30,
+            'exp' => $exp,
             'tokenExp' => $exp,
         ];
-        Log::info(json_encode($payload));
-     //   Log::info($sdkSecret);
 
         $signature = JWT::encode($payload, $sdkSecret, 'HS256');
         return $signature;
