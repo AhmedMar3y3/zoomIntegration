@@ -86,7 +86,7 @@ class ZoomService
         $sdkKey = env('ZOOM_SDK_KEY');
         $sdkSecret = env('ZOOM_SDK_SECRET');
 
-        $iat = Carbon::now('UTC')->subSeconds(30)->timestamp;
+        $iat = Carbon::now('UTC')->subHours(2)->timestamp;
         $exp = $iat + 60 * 60 * 2;
 
         $payload = [
