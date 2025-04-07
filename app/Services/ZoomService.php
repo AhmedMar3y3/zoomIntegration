@@ -86,7 +86,7 @@ class ZoomService
         $sdkKey = env('ZOOM_SDK_KEY');
         $sdkSecret = env('ZOOM_SDK_SECRET');
 
-        $iat = time();
+        $iat = Carbon::now('UTC')->subSeconds(30)->timestamp;
         $exp = $iat + 60 * 60 * 2;
 
         $payload = [
@@ -97,8 +97,8 @@ class ZoomService
             'exp' => $exp,
             'tokenExp' => $exp,
         ];
-        Log::info( $sdkKey);
-        Log::info( $sdkSecret);
+        Log::info(json_encode($payload));
+     //   Log::info($sdkSecret);
 
         $signature = JWT::encode($payload, $sdkSecret, 'HS256');
         return $signature;
