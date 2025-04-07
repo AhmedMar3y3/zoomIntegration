@@ -94,7 +94,7 @@ class ZoomService
             'mn' => $meetingNumber,
             'role' => $role,
             'iat' => $iat,
-            'exp' => $exp,
+            'exp' => $exp + 30,
             'tokenExp' => $exp,
         ];
         Log::info(json_encode($payload));
