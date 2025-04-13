@@ -83,8 +83,8 @@ class ZoomService
 
     public function generateSignature(string $meetingNumber, int $role): string
     {
-        $sdkKey = env('ZOOM_CLIENT_ID');
-        $sdkSecret = env('ZOOM_CLIENT_SECRET');
+        $sdkKey = env('ZOOM_SDK_KEY');
+        $sdkSecret = env('ZOOM_SDK_SECRET');
 
         $iat = time() - 30;
         $exp = $iat + 60 * 60 * 2;
